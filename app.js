@@ -76,12 +76,13 @@ function initialiseRadar() {
   const alertStatus = document.getElementById('alert-status');
   const alertRing = document.getElementById('alert-ring');
   const schipholMarker = document.getElementById('schiphol-marker');
-  const distanceKm = calculateDistanceInKm(moerkapelle, schiphol);
-  const bearing = calculateBearing(moerkapelle, schiphol);
 
   if (!slider || !rangeValue || !distanceValue || !distanceDetails || !alertStatus || !alertRing || !schipholMarker) {
     return;
   }
+
+  const distanceKm = calculateDistanceInKm(moerkapelle, schiphol);
+  const bearing = calculateBearing(moerkapelle, schiphol);
 
   function updateAlert() {
     const selectedRange = Number(slider.value);
