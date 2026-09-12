@@ -1,0 +1,253 @@
+:root {
+  color-scheme: dark;
+  --bg: #02110d;
+  --panel: rgba(4, 31, 24, 0.92);
+  --line: rgba(91, 255, 182, 0.25);
+  --accent: #62ffc4;
+  --accent-strong: #9effdb;
+  --warning: #ffe173;
+  --text: #e7fff5;
+  --muted: #9dc9b8;
+  --danger: #ff827c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(46, 157, 114, 0.2), transparent 32%),
+    linear-gradient(180deg, #021510 0%, #010705 100%);
+  color: var(--text);
+}
+
+.layout {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 3rem;
+}
+
+.hero {
+  margin-bottom: 2rem;
+}
+
+.eyebrow {
+  margin: 0 0 0.5rem;
+  color: var(--accent-strong);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+h1 {
+  margin: 0 0 0.75rem;
+  font-size: clamp(2rem, 5vw, 3.4rem);
+}
+
+.intro,
+.details,
+.slider-label,
+dt {
+  color: var(--muted);
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: minmax(280px, 1.2fr) minmax(250px, 0.8fr);
+  gap: 1.5rem;
+}
+
+.radar-panel,
+.control-panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 1.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.radar {
+  position: relative;
+  aspect-ratio: 1;
+  width: min(100%, 520px);
+  margin: 0 auto;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(98, 255, 196, 0.18), transparent 55%),
+    radial-gradient(circle, rgba(2, 17, 13, 0.6), rgba(2, 17, 13, 0.98) 70%);
+  border: 2px solid rgba(98, 255, 196, 0.35);
+  overflow: hidden;
+}
+
+.radar-sweep,
+.ring,
+.crosshair,
+.alert-ring {
+  position: absolute;
+}
+
+.radar-sweep {
+  inset: -5%;
+  background: conic-gradient(
+    from 90deg,
+    transparent 0deg,
+    rgba(98, 255, 196, 0.04) 285deg,
+    rgba(98, 255, 196, 0.4) 340deg,
+    rgba(98, 255, 196, 0.85) 360deg
+  );
+  animation: sweep 6s linear infinite;
+  transform-origin: center;
+}
+
+.ring {
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  inset: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ring-1 {
+  width: 34%;
+  height: 34%;
+}
+
+.ring-2 {
+  width: 60%;
+  height: 60%;
+}
+
+.ring-3 {
+  width: 86%;
+  height: 86%;
+}
+
+.crosshair-horizontal {
+  top: 50%;
+  left: 8%;
+  right: 8%;
+  border-top: 1px solid var(--line);
+}
+
+.crosshair-vertical {
+  left: 50%;
+  top: 8%;
+  bottom: 8%;
+  border-left: 1px solid var(--line);
+}
+
+.alert-ring {
+  top: 50%;
+  left: 50%;
+  width: 43%;
+  height: 43%;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 225, 115, 0.8);
+  transform: translate(-50%, -50%);
+}
+
+.marker {
+  position: absolute;
+  display: grid;
+  gap: 0.2rem;
+  justify-items: center;
+  text-align: center;
+  z-index: 2;
+}
+
+.marker-center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.marker-flight {
+  left: 73%;
+  top: 19%;
+}
+
+.marker-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent-strong);
+  box-shadow: 0 0 18px rgba(158, 255, 219, 0.9);
+}
+
+.plane-icon {
+  font-size: 1.7rem;
+  filter: drop-shadow(0 0 10px rgba(158, 255, 219, 0.6));
+}
+
+.is-highlighted .plane-icon,
+.is-highlighted .marker-label {
+  color: var(--warning);
+  filter: drop-shadow(0 0 14px rgba(255, 225, 115, 0.85));
+}
+
+.marker-label {
+  font-size: 0.9rem;
+}
+
+.stats {
+  margin: 0 0 1.5rem;
+  display: grid;
+  gap: 1rem;
+}
+
+.stats div {
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid rgba(157, 201, 184, 0.18);
+}
+
+dt,
+dd {
+  margin: 0;
+}
+
+dd {
+  margin-top: 0.25rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.slider-label {
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--warning);
+}
+
+.details {
+  margin: 1rem 0 0;
+  line-height: 1.5;
+}
+
+.is-within-range {
+  color: var(--warning);
+}
+
+.is-out-of-range {
+  color: var(--danger);
+}
+
+@keyframes sweep {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 820px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+  }
+}
