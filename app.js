@@ -46,7 +46,8 @@ function calculateBearing(from, to) {
 function calculateRadarPosition(distanceKm, bearing, rangeKm = radarRangeKm) {
   const limitedDistance = Math.min(distanceKm, rangeKm);
   const distanceRatio = limitedDistance / rangeKm;
-  const angle = toRadians(bearing - 90);
+  const cartesianBearing = (bearing + 270) % 360;
+  const angle = toRadians(cartesianBearing);
   const radius = distanceRatio * 40;
   return {
     x: 50 + Math.cos(angle) * radius,

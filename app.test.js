@@ -44,3 +44,10 @@ test('uses the provided radar range when projecting marker positions', () => {
   assert.equal(position.x, 80);
   assert.equal(position.y, 50);
 });
+
+test('projects a northward bearing toward the top of the radar', () => {
+  const position = calculateRadarPosition(15, 0, 20);
+
+  assert.ok(Math.abs(position.x - 50) < 0.000001, `unexpected x: ${position.x}`);
+  assert.ok(Math.abs(position.y - 20) < 0.000001, `unexpected y: ${position.y}`);
+});
