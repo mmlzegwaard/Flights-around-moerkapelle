@@ -93,7 +93,8 @@ function initialiseRadar() {
     distanceValue.textContent = `${formattedDistance} km`;
     distanceDetails.textContent = `${schiphol.name} is ${formattedDistance} km from ${moerkapelle.name}.`;
     alertStatus.textContent = withinRange ? 'Within alert range' : 'Outside alert range';
-    alertStatus.className = withinRange ? 'is-within-range' : 'is-out-of-range';
+    alertStatus.classList.toggle('is-within-range', withinRange);
+    alertStatus.classList.toggle('is-out-of-range', !withinRange);
     schipholMarker.classList.toggle('is-highlighted', withinRange);
 
     const ringSize = `${(Math.min(selectedRange, radarRangeKm) / radarRangeKm) * 80}%`;
