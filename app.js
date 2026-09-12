@@ -11,13 +11,6 @@ const schiphol = {
 };
 
 const radarRangeKm = 60;
-const slider = document.getElementById('alert-range');
-const rangeValue = document.getElementById('range-value');
-const distanceValue = document.getElementById('distance-value');
-const distanceDetails = document.getElementById('distance-details');
-const alertStatus = document.getElementById('alert-status');
-const alertRing = document.getElementById('alert-ring');
-const schipholMarker = document.getElementById('schiphol-marker');
 
 function toRadians(value) {
   return (value * Math.PI) / 180;
@@ -47,42 +40,80 @@ function calculateBearing(from, to) {
     Math.cos(lat1) * Math.sin(lat2) -
     Math.sin(lat1) * Math.cos(lat2) * Math.cos(lonDelta);
 
-  return (Math.atan2(y, x) * 180) / Math.PI;
+  return (((Math.atan2(y, x) * 180) / Math.PI) + 360) % 360;
 }
 
-function updateRadarMarker(distanceKm) {
+function calculateRadarPosition(distanceKm, bearing, rangeKm = radarRangeKm) {
   const limitedDistance = Math.min(distanceKm, radarRangeKm);
-  const distanceRatio = limitedDistance / radarRangeKm;
-  const bearing = calculateBearing(moerkapelle, schiphol);
+  const distanceRatio = limitedDistance / rangeKm;
   const angle = toRadians(bearing - 90);
   const radius = distanceRatio * 40;
-  const x = 50 + Math.cos(angle) * radius;
-  const y = 50 + Math.sin(angle) * radius;
-
-  schipholMarker.style.left = `${x}%`;
-  schipholMarker.style.top = `${y}%`;
+  return {
+    x: 50 + Math.cos(angle) * radius,
+    y: 50 + Math.sin(angle) * radius
+  };
 }
 
-function updateAlert() {
-  const distanceKm = calculateDistanceInKm(moerkapelle, schiphol);
-  const selectedRange = Number(slider.value);
-  const withinRange = distanceKm <= selectedRange;
-  const formattedDistance = distanceKm.toFixed(1);
+function updateRadarMarker(marker, distanceKm) {
+  const position = calculateRadarPosition(distanceKm, calculateBearing(moerkapelle, schiphol));
 
-  rangeValue.textContent = slider.value;
-  distanceValue.textContent = `${formattedDistance} km`;
-  distanceDetails.textContent = `${schiphol.name} is ${formattedDistance} km from ${moerkapelle.name}.`;
-  alertStatus.textContent = withinRange ? 'Within alert range' : 'Outside alert range';
-  alertStatus.className = withinRange ? 'is-within-range' : 'is-out-of-range';
-  schipholMarker.classList.toggle('is-highlighted', withinRange);
-
-  const ringSize = `${(Math.min(selectedRange, radarRangeKm) / radarRangeKm) * 86}%`;
-  alertRing.style.width = ringSize;
-  alertRing.style.height = ringSize;
-
-  updateRadarMarker(distanceKm);
+  marker.style.left = `${position.x}%`;
+  marker.style.top = `${position.y}%`;
 }
 
-slider.addEventListener('input', updateAlert);
+function isWithinRange(distanceKm, selectedRange) {
+  return distanceKm <= selectedRange;
+}
 
-updateAlert();
+function initialiseRadar() {
+  const slider = document.getElementById('alert-range');
+  const rangeValue = document.getElementById('range-value');
+  const distanceValue = document.getElementById('distance-value');
+  const distanceDetails = document.getElementById('distance-details');
+  const alertStatus = document.getElementById('alert-status');
+  const alertRing = document.getElementById('alert-ring');
+  const schipholMarker = document.getElementById('schiphol-marker');
+
+  if (!slider || !rangeValue || !distanceValue || !distanceDetails || !alertStatus || !alertRing || !schipholMarker) {
+    return;
+  }
+
+  function updateAlert() {
+    const distanceKm = calculateDistanceInKm(moerkapelle, schiphol);
+    const selectedRange = Number(slider.value);
+    const withinRange = isWithinRange(distanceKm, selectedRange);
+    const formattedDistance = distanceKm.toFixed(1);
+
+    rangeValue.textContent = slider.value;
+    distanceValue.textContent = `${formattedDistance} km`;
+    distanceDetails.textContent = `${schiphol.name} is ${formattedDistance} km from ${moerkapelle.name}.`;
+    alertStatus.textContent = withinRange ? 'Within alert range' : 'Outside alert range';
+    alertStatus.className = withinRange ? 'is-within-range' : 'is-out-of-range';
+    schipholMarker.classList.toggle('is-highlighted', withinRange);
+
+    const ringSize = `${(Math.min(selectedRange, radarRangeKm) / radarRangeKm) * 86}%`;
+    alertRing.style.width = ringSize;
+    alertRing.style.height = ringSize;
+
+    updateRadarMarker(schipholMarker, distanceKm);
+  }
+
+  slider.addEventListener('input', updateAlert);
+  updateAlert();
+}
+
+if (typeof document !== 'undefined') {
+  initialiseRadar();
+}
+
+if (typeof module !== 'undefined') {
+  module.exports = {
+    calculateBearing,
+    calculateDistanceInKm,
+    calculateRadarPosition,
+    isWithinRange,
+    moerkapelle,
+    radarRangeKm,
+    schiphol
+  };
+}
