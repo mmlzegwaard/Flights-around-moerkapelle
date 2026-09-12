@@ -51,3 +51,7 @@ test('projects a northward bearing toward the top of the radar', () => {
   assert.ok(Math.abs(position.x - 50) < 0.000001, `unexpected x: ${position.x}`);
   assert.ok(Math.abs(position.y - 20) < 0.000001, `unexpected y: ${position.y}`);
 });
+
+test('rejects a non-positive radar range', () => {
+  assert.throws(() => calculateRadarPosition(15, 90, 0), /Radar range must be greater than 0/);
+});

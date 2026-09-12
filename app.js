@@ -44,6 +44,10 @@ function calculateBearing(from, to) {
 }
 
 function calculateRadarPosition(distanceKm, bearing, rangeKm = radarRangeKm) {
+  if (rangeKm <= 0) {
+    throw new RangeError('Radar range must be greater than 0.');
+  }
+
   const limitedDistance = Math.min(distanceKm, rangeKm);
   const distanceRatio = limitedDistance / rangeKm;
   const cartesianBearing = (bearing + 270) % 360;
