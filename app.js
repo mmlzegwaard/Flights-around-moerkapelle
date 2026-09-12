@@ -91,7 +91,7 @@ function initialiseRadar() {
     alertStatus.className = withinRange ? 'is-within-range' : 'is-out-of-range';
     schipholMarker.classList.toggle('is-highlighted', withinRange);
 
-    const ringSize = `${(Math.min(selectedRange, radarRangeKm) / radarRangeKm) * 86}%`;
+    const ringSize = `${(Math.min(selectedRange, radarRangeKm) / radarRangeKm) * 80}%`;
     alertRing.style.width = ringSize;
     alertRing.style.height = ringSize;
 
