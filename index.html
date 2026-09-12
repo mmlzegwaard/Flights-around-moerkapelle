@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Flights around Moerkapelle</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="layout">
+      <section class="hero">
+        <p class="eyebrow">Radar overview</p>
+        <h1>Schiphol approach distance to Moerkapelle</h1>
+        <p class="intro">
+          Moerkapelle is the center point. Schiphol is shown as a landing aircraft on a
+          radar-style display, with its live configured alert range shown in kilometers.
+        </p>
+      </section>
+
+      <section class="dashboard">
+        <div class="radar-panel">
+          <div class="radar" aria-label="Radar display centred on Moerkapelle">
+            <div class="radar-sweep"></div>
+            <div class="ring ring-1"></div>
+            <div class="ring ring-2"></div>
+            <div class="ring ring-3"></div>
+            <div class="crosshair crosshair-horizontal"></div>
+            <div class="crosshair crosshair-vertical"></div>
+            <div class="alert-ring" id="alert-ring"></div>
+            <div class="marker marker-center">
+              <span class="marker-dot"></span>
+              <span class="marker-label">Moerkapelle</span>
+            </div>
+            <div class="marker marker-flight" id="schiphol-marker">
+              <span class="plane-icon" aria-hidden="true">🛬</span>
+              <span class="marker-label">Schiphol</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-panel">
+          <dl class="stats">
+            <div>
+              <dt>Distance to center</dt>
+              <dd id="distance-value">-- km</dd>
+            </div>
+            <div>
+              <dt>Alert radius</dt>
+              <dd><span id="range-value">25</span> km</dd>
+            </div>
+            <div>
+              <dt>Status</dt>
+              <dd id="alert-status">Checking…</dd>
+            </div>
+          </dl>
+
+          <label class="slider-label" for="alert-range">
+            Alert when Schiphol is within this distance of Moerkapelle
+          </label>
+          <input
+            id="alert-range"
+            type="range"
+            min="10"
+            max="60"
+            step="1"
+            value="25"
+          />
+
+          <p class="details" id="distance-details"></p>
+        </div>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

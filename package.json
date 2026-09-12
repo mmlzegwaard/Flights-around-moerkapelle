@@ -1,0 +1,17 @@
+{
+  "name": "flights-around-moerkapelle",
+  "version": "1.0.0",
+  "description": "Flights around moerkapelle",
+  "main": "app.js",
+  "scripts": {
+    "start": "python3 -m http.server 4173",
+    "test": "node --check app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://localhost:26831/mmlzegwaard/Flights-around-moerkapelle"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
