@@ -36,3 +36,11 @@ test('projects radar positions within the visible radar bounds', () => {
   assert.ok(position.x >= 10 && position.x <= 90, `x out of range: ${position.x}`);
   assert.ok(position.y >= 10 && position.y <= 90, `y out of range: ${position.y}`);
 });
+
+test('uses the provided radar range when projecting marker positions', () => {
+  const eastBearing = 90;
+  const position = calculateRadarPosition(15, eastBearing, 20);
+
+  assert.equal(position.x, 80);
+  assert.equal(position.y, 50);
+});
